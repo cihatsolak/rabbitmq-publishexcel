@@ -22,4 +22,8 @@
     <Folder Include="wwwroot\files\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PublishExcel.Shared\PublishExcel.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

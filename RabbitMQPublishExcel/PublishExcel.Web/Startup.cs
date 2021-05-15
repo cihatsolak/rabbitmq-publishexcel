@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PublishExcel.Web.Models.Contexts;
+using PublishExcel.Web.Infrastructure.IOC;
 
 namespace PublishExcel.Web
 {
@@ -18,20 +16,10 @@ namespace PublishExcel.Web
 
         public IConfiguration Configuration { get; }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("RabbitMQPublishExcel"));
-            });
-
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<AppDbContext>();
+            services.AddContextAndIdentityConfigurations(Configuration);
+            services.AddRabbitMQConfiguration(Configuration);
 
             services.AddControllersWithViews();
         }
