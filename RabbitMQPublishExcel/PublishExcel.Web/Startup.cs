@@ -29,6 +29,8 @@ namespace PublishExcel.Web
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddControllersWithViews();
