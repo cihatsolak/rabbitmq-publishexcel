@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PublishExcel.Web.Models.Contexts;
 using PublishExcel.Web.Models.Enums;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PublishExcel.Web.Controllers.WebApi
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class FilesController : ControllerBase
     {
@@ -19,12 +20,12 @@ namespace PublishExcel.Web.Controllers.WebApi
             _context = context;
         }
 
-        public async Task<IActionResult> Upload(IFormFile file, string fileId)
+        public async Task<IActionResult> Upload(IFormFile file, int fileId)
         {
-            if (file is { Length: < 0 })
+            if (file is not { Length: > 0 })
                 return BadRequest();
 
-            var userFile = await _context.UserFiles.FindAsync(fileId);
+            var userFile = await _context.UserFiles.FirstAsync(p => p.Id == fileId);
             if (userFile is null)
                 return NotFound();
 

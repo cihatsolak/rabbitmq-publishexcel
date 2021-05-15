@@ -4,15 +4,17 @@ using System;
 
 namespace PublishExcel.WorkerService.Services.RabbitMQ
 {
-    public class RabbitMQClientService : IDisposable
+    public class RabbitMQWorkerClientService : IDisposable
     {
         private readonly ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
 
-        private readonly ILogger<RabbitMQClientService> _logger;
+        private readonly ILogger<RabbitMQWorkerClientService> _logger;
 
-        public RabbitMQClientService(ConnectionFactory connectionFactory, ILogger<RabbitMQClientService> logger)
+        internal string QueueName = "convert-vehicle-list-excel";
+
+        public RabbitMQWorkerClientService(ConnectionFactory connectionFactory, ILogger<RabbitMQWorkerClientService> logger)
         {
             _connectionFactory = connectionFactory;
             _logger = logger;

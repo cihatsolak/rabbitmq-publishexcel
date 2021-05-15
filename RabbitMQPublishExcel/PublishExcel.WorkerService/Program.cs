@@ -34,7 +34,7 @@ namespace PublishExcel.WorkerService
                         DispatchConsumersAsync = true //Asenkron iþlem yapacaðým
                     });
 
-                    services.AddSingleton<RabbitMQClientService>();
+                    services.AddSingleton<RabbitMQWorkerClientService>();
                     #endregion
 
                     #region Hosted Services
