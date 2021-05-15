@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PublishExcel.WorkerService.Models;
 using PublishExcel.WorkerService.Services.RabbitMQ;
 using RabbitMQ.Client;
 using System;
@@ -21,6 +23,11 @@ namespace PublishExcel.WorkerService
                     IConfiguration configuration = hostContext.Configuration;
 
                     #region DI Services
+                    services.AddDbContext<RabbitMQPublishExcelDBContext>(options =>
+                    {
+                        options.UseSqlServer(configuration.GetConnectionString("MSSqlServer"));
+                    });
+
                     services.AddSingleton(implementationFactory => new ConnectionFactory()
                     {
                         Uri = new Uri(configuration.GetConnectionString("RabbitMQ")),
