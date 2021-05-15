@@ -108,8 +108,6 @@ namespace PublishExcel.WorkerService
             {
                 _logger.LogError("Apiden baþarýsýz!");
             }
-
-
         }
 
         private DataTable GetTable(string tableName)

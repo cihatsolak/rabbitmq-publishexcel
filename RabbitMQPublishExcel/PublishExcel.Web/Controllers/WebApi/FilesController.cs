@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using PublishExcel.Web.Hubs;
 using PublishExcel.Web.Models.Contexts;
 using PublishExcel.Web.Models.Enums;
 using System;
@@ -14,10 +16,12 @@ namespace PublishExcel.Web.Controllers.WebApi
     public class FilesController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IHubContext<NotificationHub> _notificationHub;
 
-        public FilesController(AppDbContext context)
+        public FilesController(AppDbContext context, IHubContext<NotificationHub> notificationHub)
         {
             _context = context;
+            _notificationHub = notificationHub;
         }
 
         public async Task<IActionResult> Upload(IFormFile file, int fileId)
@@ -44,6 +48,9 @@ namespace PublishExcel.Web.Controllers.WebApi
 
             _context.UserFiles.Update(userFile);
             await _context.SaveChangesAsync();
+
+            //SignalR ile bildirim göndereceğim.
+            await _notificationHub.Clients.User(userFile.UserId).SendAsync("CompletedFile");
 
             return Ok();
         }

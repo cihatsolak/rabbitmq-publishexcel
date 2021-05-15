@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PublishExcel.Web.Hubs;
 using PublishExcel.Web.Infrastructure.IOC;
 
 namespace PublishExcel.Web
@@ -21,6 +22,7 @@ namespace PublishExcel.Web
             services.AddContextAndIdentityConfigurations(Configuration);
             services.AddRabbitMQConfiguration(Configuration);
 
+            services.AddSignalR();
             services.AddControllersWithViews();
         }
 
@@ -44,9 +46,11 @@ namespace PublishExcel.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<NotificationHub>("/NotificationHub");
+
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");               
             });
         }
     }
