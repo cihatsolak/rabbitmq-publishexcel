@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+using PublishExcel.Web.Models.Contexts;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PublishExcel.Web
 {
@@ -13,7 +12,30 @@ namespace PublishExcel.Web
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            IHost host = CreateHostBuilder(args).Build();
+
+            using var serviceScope = host.Services.CreateScope();
+            var appDbContext = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            appDbContext.Database.Migrate();
+
+            if (!appDbContext.Users.Any())
+            {
+                userManager.CreateAsync(new IdentityUser
+                {
+                    UserName = "cihat.solak",
+                    Email = "cihatsolak@hotmail.com",
+                }, "test123").Wait();
+
+                userManager.CreateAsync(new IdentityUser
+                {
+                    UserName = "test.user",
+                    Email = "testuserk@hotmail.com",
+                }, "test123").Wait();
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
