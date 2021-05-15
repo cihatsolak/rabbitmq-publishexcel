@@ -53,8 +53,7 @@ namespace PublishExcel.Web.Controllers
 
             _rabbitMQPublisher.Publish(new CreateExcelMessage //RabbitMQ'ye bildiriyorum.
             {
-                FileId = userFile.Id,
-                UserId = user.Id
+                FileId = userFile.Id
             });
 
             TempData["StartCreatingExcel"] = true;
@@ -66,7 +65,7 @@ namespace PublishExcel.Web.Controllers
         public async Task<IActionResult> Files()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var files = await _context.UserFiles.Where(p => p.UserId.Equals(user.Id)).ToListAsync();
+            var files = await _context.UserFiles.Where(p => p.UserId.Equals(user.Id)).OrderByDescending(p => p.CreatedDate).ToListAsync();
             return View(files);
         }
 
