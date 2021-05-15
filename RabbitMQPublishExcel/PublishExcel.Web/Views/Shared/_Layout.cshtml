@@ -27,6 +27,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Vehicle" asp-action="Index">Vehicles</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Vehicle" asp-action="Files">Files</a>
+                        </li>
                         @if (User.Identity.IsAuthenticated == false)
                         {
                             <li class="nav-item">
@@ -56,6 +59,42 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.0.27/signalr.min.js" integrity="sha512-a+73ErrZPjhqOu0qbW1QLsenEF4pvDjmnd+Ws6hkDyJlrwAigOQAxQhIT+fPNFWScUvtJQvn+G535TT2C6/G4g==" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(() => {
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/NotificationHub").build();
+            startConnection();
+
+            connection.on("CompletedFile", () => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Excel işlemi tamamlandı.',
+                    showConfirmButton: false,
+                    ConfirmButtonText: "Dosyalarıma Git",
+                    timer: 2500
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/vehicles/files";
+                    }
+                });
+            });
+
+            function startConnection() {
+                connection.start().then().catch((error) => {
+                    console.log("signalR hata:" + error);
+                    setTimeout(() => {
+                        startConnection();
+                    }, 3000);
+                });
+            }
+        });
+
+
+    </script>
 </body>
 </html>
