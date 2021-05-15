@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublishExcel.Web", "Publish
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishExcel.Shared", "PublishExcel.Shared\PublishExcel.Shared.csproj", "{E32E72B0-FA52-44C5-B0C3-775774152905}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishExcel.WorkerService", "PublishExcel.WorkerService\PublishExcel.WorkerService.csproj", "{0781B95E-B65C-437B-BA95-C8E8156DBF54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E32E72B0-FA52-44C5-B0C3-775774152905}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E32E72B0-FA52-44C5-B0C3-775774152905}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E32E72B0-FA52-44C5-B0C3-775774152905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0781B95E-B65C-437B-BA95-C8E8156DBF54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0781B95E-B65C-437B-BA95-C8E8156DBF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0781B95E-B65C-437B-BA95-C8E8156DBF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0781B95E-B65C-437B-BA95-C8E8156DBF54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
